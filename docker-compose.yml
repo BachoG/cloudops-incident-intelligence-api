@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:16
+    restart: unless-stopped
     container_name: cloudops_postgres
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -16,6 +17,7 @@ services:
       start_period: 30s
   api:
     build: .
+    restart: unless-stopped
     container_name: cloudops_api
     ports:
       - "8000:8000"
