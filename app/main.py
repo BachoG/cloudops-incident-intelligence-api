@@ -13,7 +13,7 @@ seed_incidents()
 def show_health():
     return {
     "status": "ok",
-    "project": "cloudops-incident-intelligence-api"
+    "project": "cloudops-incident-intelligence-api-v2"
     }
 
 @app.get("/services", response_model=list[CloudServiceResponse])
