@@ -1,7 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from app.database import init_db, seed_cloud_services, seed_incidents
 from app.schemas import CloudServiceCreate, CloudServiceResponse, IncidentCreate, IncidentResponse, FullIncidentResponse, SeveritySummaryResponse, StatusSummaryResponse, ServiceRiskResponse, IncidentSummaryResponse
 from app.services import get_all_services, get_service_by_id, create_service, get_all_incidents, create_incident, get_incident_by_id, resolve_incident, get_full_incidents, get_severity_summary, get_status_summary, get_service_risk_report, get_incident_summary
+from app.auth import verify_api_key
 
 app = FastAPI(title="CloudOps Incident Intelligence API")
 init_db()
@@ -28,7 +29,7 @@ def show_service_by_id(service_id: int):
     return service
 
 @app.post("/services", response_model=CloudServiceResponse)
-def create_new_cloud_service(service: CloudServiceCreate):
+def create_new_cloud_service(service: CloudServiceCreate, _api_key: str = Depends(verify_api_key)):
     return create_service(service)
 
 @app.get("/incidents", response_model=list[IncidentResponse])
