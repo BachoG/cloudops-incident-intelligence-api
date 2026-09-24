@@ -60,7 +60,7 @@ def show_incident_by_id(incident_id: int):
     return incident
 
 @app.post("/incidents", response_model=IncidentResponse)
-def create_new_incident(incident: IncidentCreate):
+def create_new_incident(incident: IncidentCreate, _api_key: str = Depends(verify_api_key)):
     result = create_incident(incident)
     if result == "service_not_found":
         raise HTTPException(status_code=404, detail="service_not_found")
