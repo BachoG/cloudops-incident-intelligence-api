@@ -37,7 +37,7 @@ def read_all_incidents():
     return get_all_incidents()
 
 @app.patch("/incidents/{incident_id}/resolve", response_model=IncidentResponse)
-def resolve_existing_incident(incident_id: int):
+def resolve_existing_incident(incident_id: int, _api_key: str = Depends(verify_api_key)):
     result = resolve_incident(incident_id)
 
     if result == "incident_not_found":
